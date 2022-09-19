@@ -43,12 +43,16 @@ class LoginView extends GetView<LoginController> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-              CustomTextFormField(
+              Obx(() => CustomTextFormField(
                   textEditingController: controller.passwordController,
                   lebleText: ConstStrings.passwordTitle,
                   hintText: ConstStrings.passwordEntryHints,
                   textInputType: TextInputType.visiblePassword,
-                  icon: Icons.password),
+                  press: () {
+                    controller.visible.value = !controller.visible.value;
+                  },
+                  visible: controller.visible.value,
+                  icon: Icons.password)),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),

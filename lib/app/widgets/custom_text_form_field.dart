@@ -10,16 +10,17 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType textInputType;
   final bool visible;
   final IconData icon;
+  final VoidCallback? press;
 
-  const CustomTextFormField(
-      {Key? key,
-      required this.textEditingController,
-      required this.lebleText,
-      required this.hintText,
-      required this.textInputType,
-      this.visible = false,
-      required this.icon,})
-      : super(key: key);
+  const CustomTextFormField({
+    Key? key,
+    required this.textEditingController,
+    required this.lebleText,
+    required this.hintText,
+    required this.textInputType,
+    this.visible = false,
+    required this.icon,  this.press,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,7 @@ class CustomTextFormField extends StatelessWidget {
         child: TextFormField(
           controller: textEditingController,
           keyboardType: textInputType,
-          obscureText:
-              textInputType == TextInputType.visiblePassword ? true : false,
+          obscureText: visible,
           style: const TextStyle(fontSize: 18),
           cursorColor: AppColors.primaryColor,
           decoration: InputDecoration(
@@ -39,6 +39,15 @@ class CustomTextFormField extends StatelessWidget {
                 icon,
                 color: Colors.grey,
               ),
+              suffixIcon: textInputType == TextInputType.visiblePassword
+                  ? InkWell(
+                      onTap: press,
+                      child: Icon(
+                        visible ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : null,
               labelText: lebleText.toString(),
               hintText: hintText.toString(),
               labelStyle: const TextStyle(color: Colors.grey),
@@ -59,8 +68,8 @@ class CustomTextFormField extends StatelessWidget {
                     width: 1,
                     color: AppColors.primaryColor.withOpacity(0.3),
                   )),
-              errorStyle: TextStyle(
-                color: AppColors.primaryColor.withOpacity(0.3),
+              errorStyle: const TextStyle(
+                color: AppColors.primaryColor,
               )),
           validator: validation,
         ),
@@ -79,7 +88,7 @@ class CustomTextFormField extends StatelessWidget {
     if (textInputType == TextInputType.visiblePassword) {
       if (value!.isEmpty) {
         return ConstStrings.emptyFields;
-      } else if (value.length < 6) {
+      } else if (value.length < 8) {
         return ConstStrings.passwordvalidation;
       }
     }
