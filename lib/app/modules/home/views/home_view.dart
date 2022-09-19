@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:smart_blog_post/app/data/const/app_colors.dart';
 import 'package:smart_blog_post/app/widgets/custom_text.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -60,6 +61,16 @@ class HomeView extends GetView<HomeController> {
               ),
           separatorBuilder: (context, index) => const Divider(),
           itemCount: blogList!.length)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(Routes.ADDBLOG);
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
     );
   }
 }
