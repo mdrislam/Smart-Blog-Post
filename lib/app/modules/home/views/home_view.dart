@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:smart_blog_post/app/data/const/app_colors.dart';
+import 'package:smart_blog_post/app/widgets/custom_text.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -17,9 +19,20 @@ class HomeView extends GetView<HomeController> {
       body: controller.obx((blogList) => ListView.separated(
           itemBuilder: (context, index) => Container(
                 padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: AppColors.primaryColor.withOpacity(0.2)),
                 child: Column(
-                  children: const [
-                    Image.network(src)
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: blogList[index].title.toString(),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    CustomText(
+                      text: blogList[index].description.toString(),
+                      color: Colors.black,
+                    ),
                   ],
                 ),
               ),
