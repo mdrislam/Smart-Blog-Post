@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with StateMixin<List<dynamic>> {
   //TODO: Implement HomeController
 
   final count = 0.obs;
