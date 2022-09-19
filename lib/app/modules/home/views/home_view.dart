@@ -17,21 +17,43 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: controller.obx((blogList) => ListView.separated(
+          controller: controller.scrollController,
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, index) => Container(
                 padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.symmetric(horizontal: 5),
                 decoration: BoxDecoration(
-                    color: AppColors.primaryColor.withOpacity(0.2)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppColors.primaryColor.withOpacity(0.09),
+                ),
+                child: Row(
                   children: [
-                    CustomText(
-                      text: blogList[index].title.toString(),
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
+                    const Icon(
+                      Icons.image,
+                      size: 50,
                     ),
-                    CustomText(
-                      text: blogList[index].description.toString(),
-                      color: Colors.black,
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: blogList[index].title.toString(),
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomText(
+                            text: blogList[index].description.toString(),
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
