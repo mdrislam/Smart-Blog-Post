@@ -18,6 +18,8 @@ class LoginView extends GetView<LoginController> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
+          key: controller.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               SizedBox(
@@ -33,7 +35,7 @@ class LoginView extends GetView<LoginController> {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               CustomTextFormField(
-                  textEditingController: TextEditingController(),
+                  textEditingController: controller.emailController,
                   lebleText: ConstStrings.emailTitle,
                   hintText: ConstStrings.emailEntryHints,
                   textInputType: TextInputType.emailAddress,
@@ -42,7 +44,7 @@ class LoginView extends GetView<LoginController> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               CustomTextFormField(
-                  textEditingController: TextEditingController(),
+                  textEditingController: controller.passwordController,
                   lebleText: ConstStrings.passwordTitle,
                   hintText: ConstStrings.passwordEntryHints,
                   textInputType: TextInputType.visiblePassword,
@@ -50,7 +52,11 @@ class LoginView extends GetView<LoginController> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              CustomButton(press: () {}, title: ConstStrings.login),
+              CustomButton(
+                  press: () {
+                    controller.getFormValidation();
+                  },
+                  title: ConstStrings.login),
             ],
           ),
         ),

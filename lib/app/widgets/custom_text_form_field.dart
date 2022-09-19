@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType textInputType;
   final bool visible;
   final IconData icon;
+
   const CustomTextFormField(
       {Key? key,
       required this.textEditingController,
@@ -17,7 +18,7 @@ class CustomTextFormField extends StatelessWidget {
       required this.hintText,
       required this.textInputType,
       this.visible = false,
-      required this.icon})
+      required this.icon,})
       : super(key: key);
 
   @override
@@ -61,31 +62,33 @@ class CustomTextFormField extends StatelessWidget {
               errorStyle: TextStyle(
                 color: AppColors.primaryColor.withOpacity(0.3),
               )),
-          validator: (String? value) {
-            if (textInputType == TextInputType.emailAddress) {
-              if (value!.isEmpty) {
-                return ConstStrings.emptyFields;
-              } else if (!GetUtils.isEmail(value)) {
-                return ConstStrings.invalidEmail;
-              }
-            }
-            if (textInputType == TextInputType.visiblePassword) {
-              if (value!.isEmpty) {
-                return ConstStrings.emptyFields;
-              } else if (value.length < 6) {
-                return ConstStrings.passwordvalidation;
-              }
-            }
-            if (textInputType == TextInputType.text) {
-              if (value!.isEmpty) {
-                return ConstStrings.emptyFields;
-              }
-            }
-
-            return null;
-          },
+          validator: validation,
         ),
       ),
     );
+  }
+
+  String? validation(String? value) {
+    if (textInputType == TextInputType.emailAddress) {
+      if (value!.isEmpty) {
+        return ConstStrings.emptyFields;
+      } else if (!GetUtils.isEmail(value)) {
+        return ConstStrings.invalidEmail;
+      }
+    }
+    if (textInputType == TextInputType.visiblePassword) {
+      if (value!.isEmpty) {
+        return ConstStrings.emptyFields;
+      } else if (value.length < 6) {
+        return ConstStrings.passwordvalidation;
+      }
+    }
+    if (textInputType == TextInputType.text) {
+      if (value!.isEmpty) {
+        return ConstStrings.emptyFields;
+      }
+    }
+
+    return null;
   }
 }
