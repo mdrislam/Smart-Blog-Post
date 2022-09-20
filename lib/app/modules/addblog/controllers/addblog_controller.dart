@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:smart_blog_post/app/data/core/const_strings.dart';
 
 import 'package:smart_blog_post/app/modules/addblog/providers/addblog_provider.dart';
+import 'package:smart_blog_post/app/modules/home/controllers/home_controller.dart';
+import 'package:smart_blog_post/app/widgets/custom_progress_dialog.dart';
 import 'package:smart_blog_post/app/widgets/custom_snake.dart';
 
 class AddblogController extends GetxController {
@@ -35,6 +37,7 @@ class AddblogController extends GetxController {
   checkValidattion() {
     if (image.value.path == '00') {
       showSnake(title: 'Alert !', message: 'Please Select Image ', type: false);
+      return;
     }
     if (!formKey.currentState!.validate()) {
       return;
@@ -59,6 +62,7 @@ class AddblogController extends GetxController {
       required String description,
       required File image,
       required String date}) {
+    showLoaderDialog(Get.context);
     try {
       provider
           .getCreateBlog(
@@ -72,21 +76,29 @@ class AddblogController extends GetxController {
               date: date)
           .then((response) {
         if (response.statusCode == 200) {
+          Get.find<HomeController>().getBlogList();
+          Get.back();
+          Get.back();
           showSnake(
               title: 'On Success',
               message: 'Successfully Create Blog ',
               type: true);
-          Get.back();
+
+          //Get.offAllNamed(Routes.HOME);
         } else {
+          Get.back();
           showSnake(
               title: 'On Error ',
               message: ConstStrings.loginError,
               type: false);
         }
       }).onError((error, stackTrace) {
+        Get.back();
         showSnake(title: 'On Error ', message: error.toString(), type: false);
       });
     } catch (err) {
+      Get.back();
+
       showSnake(title: 'On Error ', message: err.toString(), type: false);
     }
   }
