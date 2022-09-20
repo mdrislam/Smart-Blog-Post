@@ -3,8 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smart_blog_post/app/data/core/const_strings.dart';
+
+import 'package:smart_blog_post/app/modules/addblog/providers/addblog_provider.dart';
+import 'package:smart_blog_post/app/widgets/custom_snake.dart';
 
 class AddblogController extends GetxController {
+  AddblogProvider provider;
+  AddblogController({
+    required this.provider,
+  });
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Rx<TextEditingController> titleControler = TextEditingController().obs;
   Rx<TextEditingController> subTitleController = TextEditingController().obs;
@@ -16,8 +24,6 @@ class AddblogController extends GetxController {
   Rx<File> image = File('00').obs;
   var date = DateTime.now().obs;
 
-  @override
-  void onClose() {}
   choiceImage() async {
     await imagePicker
         .pickImage(source: ImageSource.gallery)
@@ -25,4 +31,66 @@ class AddblogController extends GetxController {
       image.value = File(selectedImage!.path);
     });
   }
+
+  checkValidattion() {
+    if (image.value.path == '00') {
+      showSnake(title: 'Alert !', message: 'Please Select Image ', type: false);
+    }
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    getCreateBlogPost(
+        title: titleControler.value.text,
+        subTitle: subTitleController.value.text,
+        slug: slugController.value.text,
+        tag: tagController.value.text,
+        categoryId: categoryIDController.value.text,
+        description: descriptionController.value.text,
+        image: image.value,
+        date: date.value.toString());
+  }
+
+  getCreateBlogPost(
+      {required String title,
+      required String subTitle,
+      required String slug,
+      required String tag,
+      required String categoryId,
+      required String description,
+      required File image,
+      required String date}) {
+    try {
+      provider
+          .getCreateBlog(
+              title: title,
+              subTitle: subTitle,
+              slug: slug,
+              tag: tag,
+              categoryId: categoryId,
+              description: description,
+              image: image,
+              date: date)
+          .then((response) {
+        if (response.statusCode == 200) {
+          showSnake(
+              title: 'On Success',
+              message: 'Successfully Create Blog ',
+              type: true);
+          Get.back();
+        } else {
+          showSnake(
+              title: 'On Error ',
+              message: ConstStrings.loginError,
+              type: false);
+        }
+      }).onError((error, stackTrace) {
+        showSnake(title: 'On Error ', message: error.toString(), type: false);
+      });
+    } catch (err) {
+      showSnake(title: 'On Error ', message: err.toString(), type: false);
+    }
+  }
+
+  @override
+  void onClose() {}
 }

@@ -124,7 +124,11 @@ class AddblogView extends GetView<AddblogController> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              CustomButton(press: () {}, title: 'Store'),
+              CustomButton(
+                  press: () {
+                    controller.checkValidattion();
+                  },
+                  title: 'Store'),
             ],
           ),
         ),
