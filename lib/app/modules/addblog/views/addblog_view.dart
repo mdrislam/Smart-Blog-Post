@@ -83,7 +83,7 @@ class AddblogView extends GetView<AddblogController> {
               CustomTextFormField(
                   textEditingController: controller.subTitleController.value,
                   lebleText: 'Sub-Title',
-                  hintText: 'enter sub-title here',
+                  hintText: 'enter sub-title here ',
                   textInputType: TextInputType.text,
                   icon: Icons.subtitles),
               SizedBox(
