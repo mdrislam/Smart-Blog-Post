@@ -12,4 +12,11 @@ class HomeProvider extends GetConnect {
           'Authorization': 'Bearer ${StorageHelper.getString(key: 'token')}'
         },
       );
+  Future<dynamic> getDelete({required int id}) => http.delete(
+        Uri.parse('${BaseUrl.baseUrl}/admin/blog-news/delete/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${StorageHelper.getString(key: 'token')}'
+        },
+      );
 }

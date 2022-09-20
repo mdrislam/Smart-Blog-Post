@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/addblog/bindings/addblog_binding.dart';
 import '../modules/addblog/views/addblog_view.dart';
+import '../modules/editBlog/bindings/edit_blog_binding.dart';
+import '../modules/editBlog/views/edit_blog_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -17,7 +19,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => HomeView(),
+      page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -27,8 +29,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADDBLOG,
-      page: () => AddblogView(),
+      page: () => const AddblogView(),
       binding: AddblogBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_BLOG,
+      page: () => EditBlogView(),
+      binding: EditBlogBinding(),
     ),
   ];
 }

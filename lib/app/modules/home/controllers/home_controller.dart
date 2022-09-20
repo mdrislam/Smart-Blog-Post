@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'package:smart_blog_post/app/modules/home/providers/home_provider.dart';
+import 'package:smart_blog_post/app/widgets/custom_progress_dialog.dart';
 
+import '../../../data/core/const_strings.dart';
 import '../../../data/model/blog_list_response.dart';
+import '../../../widgets/custom_snake.dart';
 
 class HomeController extends GetxController with StateMixin<List<Blog>> {
   HomeProvider provider;
@@ -38,6 +41,7 @@ class HomeController extends GetxController with StateMixin<List<Blog>> {
     super.onInit();
   }
 
+  ///Get Blog List by User Token
   getBlogList() {
     change(null, status: RxStatus.loading());
     try {
@@ -82,6 +86,39 @@ class HomeController extends GetxController with StateMixin<List<Blog>> {
       });
     } catch (error) {
       isLoading.value = false;
+    }
+  }
+
+  ///Get Blog List by User Token
+  getDelete({required int id}) {
+    showLoaderDialog(Get.context);
+    try {
+      provider.getDelete(id: 39,).then((response) {
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          
+          getBlogList();
+          Get.back();
+          showSnake(
+              title: 'On Success',
+              message: 'Successfully Deleted Blog ',
+              type: true);
+        } else {
+          Get.back();
+          showSnake(
+              title: 'On Error ',
+              message: ConstStrings.loginError,
+              type: false);
+        }
+      }).onError((error, stackTrace) {
+        Get.back();
+        showSnake(title: 'On Error ', message: error.toString(), type: false);
+      });
+    } catch (err) {
+      print(err);
+      Get.back();
+
+      showSnake(title: 'On Error ', message: err.toString(), type: false);
     }
   }
 
