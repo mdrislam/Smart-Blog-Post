@@ -25,6 +25,7 @@ class AddblogView extends GetView<AddblogController> {
         ),
         centerTitle: true,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -50,7 +51,7 @@ class AddblogView extends GetView<AddblogController> {
                             color: AppColors.primaryColor.withOpacity(0.5),
                             child: const Center(
                                 child: CustomText(
-                              text: 'Select Blog Image',
+                              text: 'Select Blog Image ',
                               color: Colors.black,
                             )),
                           ),
