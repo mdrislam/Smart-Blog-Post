@@ -34,8 +34,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.EDIT_BLOG,
-      page: () => EditBlogView(),
-      binding: EditBlogBinding(),
+      page: () => const EditBlogView(),
     ),
   ];
 }

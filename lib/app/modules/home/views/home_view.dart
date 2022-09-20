@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:smart_blog_post/app/data/const/app_colors.dart';
+import 'package:smart_blog_post/app/modules/editBlog/providers/edit_blog_provider.dart';
 
 import 'package:smart_blog_post/app/widgets/custom_text.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../editBlog/controllers/edit_blog_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -35,7 +37,7 @@ class HomeView extends GetView<HomeController> {
                     fontWeight: FontWeight.w700,
                   ),
                   subtitle: CustomText(
-                    text: blogList[index].title.toString(),
+                    text: blogList[index].description.toString(),
                     color: Colors.black,
                   ),
                   trailing: SizedBox(
@@ -44,63 +46,30 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         InkWell(
                           onTap: () {
-                            controller.getDelete(id: blogList[index].id!,);
+                            controller.getDelete(
+                              id: blogList[index].id!,
+                            );
                           },
                           child: const Icon(
                             Icons.delete,
                             color: AppColors.primaryColor,
                           ),
                         ),
-                        const Icon(Icons.edit, color: Colors.greenAccent),
+                        InkWell(
+                            onTap: () {
+                              Get.lazyPut<EditBlogController>(
+                                () => EditBlogController(
+                                    provider: EditBlogProvider(),
+                                    blog: blogList[index]),
+                              );
+                              Get.toNamed(Routes.EDIT_BLOG);
+                            },
+                            child: const Icon(Icons.edit,
+                                color: Colors.greenAccent)),
                       ],
                     ),
                   ),
                 ),
-
-                // child: Container(
-                //   padding: const EdgeInsets.all(8),
-                //   margin: const EdgeInsets.symmetric(horizontal: 5),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(5),
-                //     color: AppColors.primaryColor.withOpacity(0.09),
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       const Icon(
-                //         Icons.image,
-                //         size: 50,
-                //       ),
-                //       const SizedBox(
-                //         width: 20,
-                //       ),
-                //       Expanded(
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Align(
-                //               alignment: Alignment.topRight,
-                //               child: Row(
-                //                 children: const [],
-                //               ),
-                //             ),
-                //             CustomText(
-                //               text: blogList[index].title.toString(),
-                //               color: AppColors.primaryColor,
-                //               fontWeight: FontWeight.w700,
-                //             ),
-                //             const SizedBox(
-                //               height: 10,
-                //             ),
-                //             CustomText(
-                //               text: blogList[index].description.toString(),
-                //               color: Colors.black,
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ),
           separatorBuilder: (context, index) => const Divider(),
           itemCount: blogList!.length)),
